@@ -8,15 +8,24 @@ Clone this repository into an out of the way folder on your computer
 *cd ~/Desktop/resources/*
 *git clone https://github.com/gikuyunderitu/ang2-starter*
 
-Then go to your home directory *ie. cd~* and open up up your bash-profile *ie. vim .bash_profile* and add this line of code
+Then go to your home directory *ie. cd~* and open up up your bash-profile *ie. vim .bash_profile* and copy the functions in functions.txt to those files
 
+Example function
 ```
 function ang2starter() {
     mkdir -p "mean-"$1
     cd "mean-"$1
-    cp -rf ~/Desktop/resources/ang2-starter/* .
-    npm i
-    ng new public --routing
+    cp -rf ~/Coding_projects/resources/ang2-starter/* .
+    yarn install
+    ng new $1 --routing --style sass --skip-git
+    mv $1 public
+    yarn add @angular/cli --dev
+    echo node_modules/"\n"public/node_modules/ > .gitignore
+    git init
+    git add -A
+    git commit -m "Ang2starter generated commit."
+    mv proxy.conf.json public/
+    jq '.scripts.start = "ng serve --proxy-config proxy.conf.json"' public/package.json > tmp.$$.json && mv tmp.$$.json public/package.json
 }
 ```
 
